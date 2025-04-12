@@ -38,13 +38,15 @@ const FileUpload = ({
     }
   return (
     <UploadDropzone
-      endpoint={endpoint}
-      onClientUploadComplete={(res) => {
-        const fileUrl = res?.[0]?.ufsUrl;
-  if (fileUrl) onChange(fileUrl);
-      }}
-      onUploadError={(error: Error) => console.error(error.message)}
-    />
+  endpoint={endpoint}
+  className="w-full max-w-sm mx-auto"
+  onClientUploadComplete={(res) => {
+    const fileUrl = res?.[0]?.ufsUrl;
+    if (fileUrl) onChange(fileUrl);
+  }}
+  onUploadError={(error: Error) => console.error(error.message)}
+/>
+
   )
 }
 

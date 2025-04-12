@@ -72,20 +72,18 @@ export function InitialModal() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
-              <div className="flex justify-center w-full">
+              <div className="flex items-center justify-center text-center">
                 <FormField
                   control={form.control}
                   name="imageUrl"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col items-center justify-center">
+                    <FormItem>
                       <FormControl>
-                        <div className="mx-auto">
                         <FileUpload
                           endpoint="serverImage"
                           value={field.value}
                           onChange={field.onChange}
                         />
-                        </div>
                       </FormControl>
                     </FormItem>
                   )}
