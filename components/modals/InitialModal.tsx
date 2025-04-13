@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
@@ -48,7 +49,16 @@ export function InitialModal() {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-   console.log("hi")
+     try {
+        await axios.post("/api/servers", values);
+        
+        form.reset();
+        router.refresh();
+        window.location.reload();
+
+     } catch (error) {
+        console.error(error);
+     }
   };
 
   useEffect(() => {
