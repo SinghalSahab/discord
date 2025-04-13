@@ -18,7 +18,7 @@ const SetupPage =  async() => {
         },
      })
 
-     if(server) return redirect(`/servers${server.id}`);
+     if(server) return redirect(`/servers/${server.id}`);
   return (
     <div className='flex justify-center items-center h-200vh w-full bg-red-700'>
         <InitialModal />
