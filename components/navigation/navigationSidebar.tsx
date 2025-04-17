@@ -8,6 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import NavigationItem from './NavigationItem';
 import { ModeToggle } from '../mode-toggle';
 import { UserButton } from '@clerk/nextjs';
+import ModalProvider from "@/components/providers/modalProvider";
 
 
 const NavigationSidebar = async () => {
@@ -25,7 +26,8 @@ const NavigationSidebar = async () => {
     })
     if(!servers) return redirect('/');
   return (
-    <div className='space-y-4 flex flex-col items-center h-full w-full text-primary dark:bg-[#1E1F22] py-3'>
+    <div className='navme space-y-4 flex flex-col items-center h-full w-full text-primary dark:bg-[#1E1F22] py-3 z-50'>
+        
         <NavigationAction />
         <Separator className='h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto'/>
 

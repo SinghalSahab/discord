@@ -1,14 +1,18 @@
 "use client"
 
 import { Plus } from "lucide-react"
-import ActionTooltip from "../actionTooltip"
+import ActionTooltip from "@/components/actionTooltip"
+import { useModalStore } from "@/hooks/useModalStore"
 
 const NavigationAction = () => {
+
+    const {onOpen} = useModalStore();
+
   return (
     <div>
         <ActionTooltip side="right" align="center" label="Add a server">
       <button 
-      onClick={() => {}}
+      onClick={() => onOpen("createServer")}
       aria-label="Add a server"
       className="group flex items-center"
        >

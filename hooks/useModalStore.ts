@@ -1,17 +1,24 @@
-import {create} from "zustand";
+// hooks/useModalStore.ts
+import { create } from "zustand";
 
-export type ModalType = "createServer"
+type ModalType = "createServer" | null;
 
-interface ModalStore {
-    type:ModalType | null;
-    isOpen: boolean;
-    onOpen: (type: ModalType) => void;
-    onClose: () => void;
+interface ModalState {
+  isOpen: boolean;
+  type: ModalType;
+  onOpen: (type: ModalType) => void;
+  onClose: () => void;
 }
 
-export const useModalStore = create<ModalStore>((set) => ({
-    type: null,
-    isOpen: false,
-    onOpen: (type) => set({ type, isOpen: true }),
-    onClose: () => set({ type: null, isOpen: false }),
+export const useModalStore = create<ModalState>((set) => ({
+  isOpen: false,
+  type: null,
+  onOpen: (type) => {
+    console.log("Opened modal:", type);
+    set({ isOpen: true, type });
+  },
+  onClose: () => {
+    console.log("Closed modal");
+    set({ isOpen: false, type: null });
+  },
 }));

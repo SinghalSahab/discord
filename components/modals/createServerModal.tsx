@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/ui/dialog";
+
 import {
   Form,
   FormControl,
@@ -23,9 +24,10 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import FileUpload from "../fileUpload";
+import FileUpload from "@/components/fileUpload";
 import { useModalStore } from "@/hooks/useModalStore";
 
 const formSchema = z.object({
@@ -35,9 +37,14 @@ const formSchema = z.object({
 
 export function CreateServerModal() {
   const { isOpen, onClose, type } = useModalStore();
+  const isModalOpen = isOpen && type === "createServer";
+
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
-  const isModalOpen = isOpen && type === "createServer";
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -52,7 +59,6 @@ export function CreateServerModal() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.post("/api/servers", values);
-
       form.reset();
       router.refresh();
       onClose();
@@ -66,6 +72,8 @@ export function CreateServerModal() {
     onClose();
   };
 
+  if (!isMounted || !isModalOpen) return null;
+
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
@@ -78,6 +86,7 @@ export function CreateServerModal() {
             always change it later.
           </DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
@@ -98,6 +107,7 @@ export function CreateServerModal() {
                   )}
                 />
               </div>
+
               <FormField
                 control={form.control}
                 name="name"
@@ -110,7 +120,7 @@ export function CreateServerModal() {
                       <Input
                         disabled={isLoading}
                         placeholder="Enter server name"
-                        className="bg-zinc-300/50 border-0 focus-visible: ring-0 text-black focus-visible:ring-offset-0"
+                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
                         {...field}
                       />
                     </FormControl>
@@ -119,6 +129,7 @@ export function CreateServerModal() {
                 )}
               />
             </div>
+
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button disabled={isLoading} variant="primary">
                 Create

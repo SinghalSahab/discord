@@ -1,4 +1,4 @@
-import React from 'react'
+"use client";
 
 import { UploadDropzone } from '@/lib/uploadthing';
 import type { ClientUploadedFileData } from "uploadthing/types";
