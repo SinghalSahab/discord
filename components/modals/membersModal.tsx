@@ -59,18 +59,42 @@ export function MembersModal() {
   const isModalOpen = isOpen && type === "members";
   const { server } = data as {server:ServerWithMenbersWithProfile};//how this resolve the error  in server?.members
 
-const  onRoleChange = async (memberId:string,role:MemberRole) =>{
+  const onKick = async (memberId:string) => {
     try {
         setLoadingId(memberId);
-        const url = qs.stringify({
+        const url = qs.stringifyUrl({
             url:`/api/members/${memberId}`,
             query:{
                 serverId:server?.id,
             }
         })
+        console.log("berfore res")
+        const response = await axios.delete(url)
 
+        console.log("res",response.data)
+        router.refresh();
+        onOpen("members",{server:response.data})
+    } catch (error) {
+        console.error(error);
+    }
+    finally{
+        setLoadingId("")
+    }
+  }
+const  onRoleChange = async (memberId:string,role:MemberRole) =>{
+    try {
+        console.log("inrole",memberId,role)
+        setLoadingId(memberId);
+        const url = qs.stringifyUrl({
+            url:`/api/members/${memberId}`,
+            query:{
+                serverId:server?.id,
+            }
+        })
+        console.log("berfore res")
         const response = await axios.patch(url,{role})
 
+        console.log("res",response.data)
         router.refresh();
         onOpen("members",{server:response.data})
     } catch (error) {
@@ -142,7 +166,8 @@ const  onRoleChange = async (memberId:string,role:MemberRole) =>{
                                     </DropdownMenuPortal>
                                       </DropdownMenuSub>
                                       <DropdownMenuSeparator />
-                                      <DropdownMenuItem>
+                                      <DropdownMenuItem
+                                      onClick={() => onKick(member.id)}>
                                         <Gavel className="h-4 w-4 mr-2" />
                                         Kick
                                       </DropdownMenuItem>
