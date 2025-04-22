@@ -35,7 +35,7 @@ const ServerSearch = ({data}: ServerSearchProps) => {
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
-          if (e.key === "F" && (e.metaKey || e.ctrlKey)) {
+          if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
             e.preventDefault();
             setOpen((open) => !open);
           }
@@ -71,7 +71,7 @@ const ServerSearch = ({data}: ServerSearchProps) => {
             Search
         </p>
         <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-mited-foreground ml-auto">
-            <span className="text-xs">⌘</span>F
+            <span className="text-xs">⌘</span>K
         </kbd>
       </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
