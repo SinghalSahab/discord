@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import ActionTooltip from "../actionTooltip";
+import { useModalStore } from "@/hooks/useModalStore";
 
 const iconMap = {
     [ChannelType.TEXT]: Hash,
@@ -22,7 +23,7 @@ interface ServerChannelProps {
 const ServerChannel = ({channel, server, role}: ServerChannelProps) => {
     const params = useParams();
     const router = useRouter();
-
+    const {onOpen} = useModalStore();
     const Icon = iconMap[channel.type];
   return (
     <button 
@@ -45,12 +46,16 @@ const ServerChannel = ({channel, server, role}: ServerChannelProps) => {
                 <ActionTooltip 
                 label="Edit"
                 >
-                    <Edit className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
+                    <Edit
+                    onClick={() => onOpen("editChannel", { channel, server })}
+                    className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
                 </ActionTooltip>
                 <ActionTooltip 
                 label="Delete"
                 >
-                    <Trash className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
+                    <Trash 
+                     onClick={() => onOpen("deleteChannel", { channel, server })}
+                     className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
                 </ActionTooltip>
             </div>
         )}

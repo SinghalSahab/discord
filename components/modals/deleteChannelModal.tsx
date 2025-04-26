@@ -16,24 +16,32 @@ import { Button } from "@/components/ui/button";
 
 import { useModalStore } from "@/hooks/useModalStore";
 import { useRouter } from "next/navigation";
+import qs from "query-string";
 
 export function DeleteChannelModal() {
   const { isOpen, onClose, type, data } = useModalStore();
   
 
   const isModalOpen = isOpen && type === "deleteChannel";
-  const { channel } = data;
+  const {server, channel } = data;
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async() => {
     try {
         setIsLoading(true);
-        await axios.delete(`/api/servers/${server?.id}`)
+        const url = qs.stringifyUrl({
+          url: `/api/channels/${channel?.id}`,
+          query: {
+            serverId: server?.id
+          }
+        });
+  
+        await axios.delete(url);
        
         onClose();
         router.refresh();
-        router.push('/')
+        router.push(`/servers/${server?.id}`)
     } catch (error) {
         console.error(error);
     } finally {
@@ -47,13 +55,13 @@ export function DeleteChannelModal() {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Delete Server
+            Delete Channel
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
           Are you sure you want to do this?
             <br />
             <span className="font-semibold text-indigo-500">
-              {channel?.name}
+              #{channel?.name}
             </span>{" "}
             will be permanently deleted.
           </DialogDescription>
