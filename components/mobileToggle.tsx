@@ -8,7 +8,7 @@ import ServerSidebar from "./server/serverSidebar";
 
 const MobileToggle = ({ serverId }: { serverId: string }) => {
   return (
-    <div className=" ">
+    <div className=" md:hidden">
         {/* make it md:hidden */}
       <Sheet>
         <SheetTrigger asChild>
@@ -16,12 +16,12 @@ const MobileToggle = ({ serverId }: { serverId: string }) => {
             <Menu />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="p-0 flex">
+        <SheetContent side="left" className="p-0 flex gap-0">
+          <div className="flex h-full">
           <div className="w-[72px]">
-            <NavigationSidebar />
-          </div>
-          <div className="flex-1">
-            <ServerSidebar serverId={serverId} />
+          <NavigationSidebar />
+        </div>
+          <ServerSidebar serverId={serverId} />
           </div>
         </SheetContent>
       </Sheet>
