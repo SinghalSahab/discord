@@ -8,8 +8,9 @@ import { format } from "date-fns";
 import  ChatWelcome  from "@/components/chat/ChatWelcome";
 import  ChatItem  from "@/components/chat/ChatItem";
 import { useChatQuery } from "@/hooks/useChatQuery";
-import { useChatSocket } from "@/hooks/use-chat-socket";
-import { useChatScroll } from "@/hooks/use-chat-scroll";
+
+import { useChatScroll } from "@/hooks/useChatScroll";
+import { useChatSocket } from "@/hooks/useChatSocket";
 
 interface ChatMessagesProps {
   name: string;
@@ -45,8 +46,8 @@ const ChatMessages = ({  name,
   const addKey = `chat:${chatId}:messages`;
   const updateKey = `chat:${chatId}:messages:update`;
 
-  const chatRef = useRef<ElementRef<"div">>(null);
-  const bottomRef = useRef<ElementRef<"div">>(null);
+  const chatRef = useRef<HTMLDivElement>(null)
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
@@ -55,6 +56,15 @@ const ChatMessages = ({  name,
       paramKey,
       paramValue
     });
+
+    useChatSocket({addKey,updateKey,queryKey});
+    useChatScroll({
+        chatRef,
+        bottomRef,  
+        shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
+        loadMore: fetchNextPage,
+        count: data?.pages?.[0]?.items?.length ?? 0
+    })
    if(status === "loading"){
     return (
         <div className="flex flex-col flex-1 justify-center items-center">
@@ -74,9 +84,22 @@ const ChatMessages = ({  name,
     )
    }
   return (
-    <div className="flex flex-col py-4 flex-1 overflow-y-auto">
-        <div className="flex-1"/>
-        <ChatWelcome name={name} type={type}/>
+    <div ref={chatRef} className="flex flex-col py-4 flex-1 overflow-y-auto">
+        {!hasNextPage && <div className="flex-1"/>}
+        {!hasNextPage && (<ChatWelcome name={name} type={type}/>)}
+        {hasNextPage && (
+            <div className="flex justify-center">
+                {isFetchingNextPage ? (
+                    <Loader2 className="h-6 w-6 text-zinc-500 animate-spin my-4"/>
+                ):(
+                    <button 
+                      onClick={() => fetchNextPage()}
+                     className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 text-xs my-4 dark:hover:text-zinc-300 transition" onClick={() => fetchNextPage()}>
+                        Load previous messages
+                    </button>
+                )}
+            </div>
+        )}
         <div className="flex flex-col-reverse mt-auto">
             {data?.pages?.map((group,i)=>(
                 <Fragment key={i}>
@@ -98,6 +121,7 @@ const ChatMessages = ({  name,
                 </Fragment>
             ))}
         </div>
+        <div ref={bottomRef} />
     </div>
   )
 }
