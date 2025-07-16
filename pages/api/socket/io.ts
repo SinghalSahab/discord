@@ -15,6 +15,7 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
   if (!res.socket.server.io) {
     console.log("Socket is not initialized, creating new server...");
     const path = "/api/socket/io";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const httpServer: NetServer = res.socket.server as any;
     const io = new ServerIO(httpServer, {
       path: path,

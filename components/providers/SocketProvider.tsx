@@ -10,6 +10,7 @@ import { io, Socket } from "socket.io-client";
 
 
 type SocketContextType = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   socket: any | null;
   isConnected: boolean;
 };
@@ -28,6 +29,7 @@ const SocketProvider = ({children} : {children:React.ReactNode}) => {
     const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const socketInstance = new (io as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
             path: "/api/socket/io",
             addTrailingSlash: false
