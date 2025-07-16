@@ -1,7 +1,6 @@
 import NavigationSidebar from "@/components/navigation/navigationSidebar";
 import React from "react";
 
-import ModalProvider from "@/components/providers/modalProvider";
 export default async function MainLayout({
   children
 }: {
