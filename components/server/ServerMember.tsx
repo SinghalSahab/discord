@@ -9,7 +9,7 @@ import { UserAvatar } from "../userAvatar";
 
 interface ServerMemberProps {
   member: Member & { profile: Profile };
-  server: Server;
+  
 }
 
 const roleIconMap = {
@@ -23,12 +23,12 @@ const roleIconMap = {
 };
 
 
-export const ServerMember = ({ member, server }: ServerMemberProps) => {
+export const ServerMember = ({ member }: ServerMemberProps) => {
     const params = useParams();
     const router = useRouter();
 
     const onClick = () => {
-      router.push(`/servers/${params.serverId}/conversations/${member.id}`);
+      router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
     };
     const icon = roleIconMap[member.role];
     return(

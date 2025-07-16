@@ -1,6 +1,6 @@
 "use client"
 
-import React, { Fragment, useRef, ElementRef } from "react";
+import React, { Fragment, useRef } from "react";
 import { Member, Message, Profile } from "@prisma/client";
 import { Loader2, ServerCrash } from "lucide-react";
 import { format } from "date-fns";
@@ -94,7 +94,7 @@ const ChatMessages = ({  name,
                 ):(
                     <button 
                       onClick={() => fetchNextPage()}
-                     className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 text-xs my-4 dark:hover:text-zinc-300 transition" onClick={() => fetchNextPage()}>
+                     className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 text-xs my-4 dark:hover:text-zinc-300 transition" >
                         Load previous messages
                     </button>
                 )}

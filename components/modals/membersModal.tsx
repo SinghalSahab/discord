@@ -29,10 +29,6 @@ import {
     ShieldCheck,
     ShieldQuestion
   } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
 
 import { useModalStore } from "@/hooks/useModalStore";
 import { ServerWithMenbersWithProfile } from "@/types";

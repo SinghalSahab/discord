@@ -1,11 +1,9 @@
 "use client";
 
 import { UploadDropzone } from '@/lib/uploadthing';
-import type { ClientUploadedFileData } from "uploadthing/types";
 import { FileIcon, X } from 'lucide-react';
 import Image from 'next/image';
 import "@uploadthing/react/styles.css"; 
-import { on } from 'events';
 
 interface FileUploadProps {
     onChange: (url?: string) => void;
